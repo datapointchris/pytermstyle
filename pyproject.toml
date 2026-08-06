@@ -3,14 +3,17 @@ name = "pytermstyle"
 version = "0.1.0"
 description = "House terminal style for Python CLIs: palette, section header, and help grammar"
 authors = [{ name = "Chris Birch", email = "datapointchris@gmail.com" }]
-license = { text = "MIT" }
+# SPDX expression plus license-files, per PEP 639. The older
+# license = { text = "MIT" } paired with a License :: OSI Approved classifier is
+# deprecated, and uv warns on it at build time.
+license = "MIT"
+license-files = ["LICENSE"]
 readme = "README.md"
 keywords = ["cli", "terminal", "ansi", "color", "help", "formatting"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Environment :: Console",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3 :: Only",
     "Topic :: Software Development :: Libraries",
     "Typing :: Typed",
@@ -127,7 +130,10 @@ managed = [
 ]
 
 [build-system]
-requires = ["uv_build>=0.11.32,<0.12.0"]
+# Upper bound tracks the backend's own minor series, not the uv release that
+# happened to be current when the repo was created. The inherited <0.12.0 pin
+# already excluded the installed uv, which warns on every build by a consumer.
+requires = ["uv_build>=0.11.32,<0.13.0"]
 build-backend = "uv_build"
 
 [tool.uv.build-backend]
