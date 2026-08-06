@@ -1,0 +1,61 @@
+[project]
+name = "pytermstyle"
+version = "0.0.0"
+description = "House terminal style for Python CLIs: palette, section header, and help grammar"
+authors = [{ name = "Chris Birch", email = "datapointchris@gmail.com" }]
+license = { text = "MIT" }
+readme = "README.md"
+keywords = ["cli", "terminal", "ansi", "color", "help", "formatting"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries",
+    "Typing :: Typed",
+]
+
+# A library floors lower than an application — see ~/dev/standards/release.md
+# § "Raising a language floor excludes callers". dotfiles itself is on 3.13; a
+# consumer stuck a release behind must still be able to resolve this.
+requires-python = ">=3.11"
+
+# Stdlib only, and this stays empty. Every consumer is a single-file CLI that
+# imports this for its palette alone, and several of them declare their whole
+# dependency list in a PEP 723 header — a transitive dependency here is one they
+# did not ask for.
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/datapointchris/pytermstyle"
+Issues = "https://github.com/datapointchris/pytermstyle/issues"
+Changelog = "https://github.com/datapointchris/pytermstyle/blob/main/CHANGELOG.md"
+
+[dependency-groups]
+dev = [
+    "bandit>=1.7.8",
+    "mypy>=1.10.0",
+    "pre-commit>=4.3.0",
+    "pytest>=8.0.0",
+    "pytest-cov>=5.0.0",
+    "ruff>=0.7.0",
+]
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+branch = "main"
+commit_message = "build(release): {version}"
+build_command = """
+    pip install uv
+    uv lock --upgrade-package pytermstyle
+    git add uv.lock
+"""
+
+[build-system]
+requires = ["uv_build>=0.11.32,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "pytermstyle"
+module-root = "src"

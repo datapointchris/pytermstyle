@@ -1,0 +1,31 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  # python-semantic-release decides the version from the commit types, writes it
+  # into pyproject.toml, tags, and creates the GitHub release.
+  #
+  # There is no publish job. pytermstyle is consumed as a git dependency pinned
+  # to a release tag, moving to the private index later, so the tag IS the
+  # artifact and there is nothing to upload. Do not restore the publish job from
+  # a sibling repo's workflow: the name is taken on public PyPI by an unrelated
+  # package, and new projects do not go there regardless.
+  version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: python-semantic-release/python-semantic-release@v9
+        id: release
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
