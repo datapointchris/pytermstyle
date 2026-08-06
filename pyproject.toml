@@ -1,6 +1,6 @@
 [project]
 name = "pytermstyle"
-version = "0.0.0"
+version = "0.1.0"
 description = "House terminal style for Python CLIs: palette, section header, and help grammar"
 authors = [{ name = "Chris Birch", email = "datapointchris@gmail.com" }]
 license = { text = "MIT" }
