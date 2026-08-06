@@ -1,6 +1,28 @@
 # CHANGELOG
 
 
+## v0.1.1 (2026-08-06)
+
+### Bug Fixes
+
+- Correct the build backend pin and license metadata
+  ([`2f29b79`](https://github.com/datapointchris/pytermstyle/commit/2f29b79989af53decbaf974bdab60153d7b30ad3))
+
+Both surfaced by the first real consumer resolving this package from a git tag, and both are
+  consumer-visible: uv printed them while building the package, not while developing it.
+
+The inherited pin was uv_build>=0.11.32,<0.12.0, which already excluded the installed uv 0.12.1 —
+  the upper bound was the uv release current when the template repo was created rather than the
+  backend's own series. Widened to <0.13.0.
+
+license = { text = "MIT" } plus a License :: OSI Approved classifier is the pre-PEP-639 spelling and
+  uv warns on it. Replaced with the SPDX expression and license-files, which produces
+  Metadata-Version 2.4 carrying License-Expression and bundles LICENSE into the wheel.
+
+Verified by building: both warnings gone, and py.typed is present in the wheel, without which the
+  marker added earlier would not reach a consumer at all.
+
+
 ## v0.1.0 (2026-08-06)
 
 ### Build System

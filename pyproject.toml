@@ -1,6 +1,6 @@
 [project]
 name = "pytermstyle"
-version = "0.1.0"
+version = "0.1.1"
 description = "House terminal style for Python CLIs: palette, section header, and help grammar"
 authors = [{ name = "Chris Birch", email = "datapointchris@gmail.com" }]
 # SPDX expression plus license-files, per PEP 639. The older
