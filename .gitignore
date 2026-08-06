@@ -1,1 +1,7 @@
+# Short by design: .venv, htmlcov, .pytest_cache, .ruff_cache and .mypy_cache
+# each write a self-ignoring .gitignore into themselves. Only the artifacts that
+# do not — the ones `task clean` removes — need listing here.
 .planning
+.coverage
+coverage.xml
+dist/
