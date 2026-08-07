@@ -1,5 +1,5 @@
 # python-semantic-release regenerates CHANGELOG.md on every release, so letting
 # markdownlint --fix re-normalize it produces a diff against a file nobody wrote.
-# repo-structure.md § Known gaps: this is the one tool config forge's sync does
-# not own, because its contents are legitimately per-repo.
+# forge's sync-markdownlintignore ensures this entry; the rest of the file is
+# per-repo, which is why the die appends rather than deploying.
 CHANGELOG.md
