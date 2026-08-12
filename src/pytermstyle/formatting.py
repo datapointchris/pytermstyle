@@ -24,7 +24,7 @@ column from the longest row in the section. No call site passes a width or a
 color. Close a screen with ``help_end``, and use ``help_text`` rather than
 ``print`` for prose between rows so pending rows flush ahead of it.
 
-There is deliberately no ``dim`` — see ~/dev/standards/cli-design.md, which rules
+There is deliberately no ``dim`` — see standards/cli-design.md, which rules
 it out for being unreadable against half the terminal themes in use.
 
 Two constraints are deliberate, and are constraints rather than oversights.
