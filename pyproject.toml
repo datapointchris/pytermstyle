@@ -33,7 +33,7 @@ dependencies = []
 [project.urls]
 Repository = "https://github.com/datapointchris/pytermstyle"
 Issues = "https://github.com/datapointchris/pytermstyle/issues"
-Changelog = "https://github.com/datapointchris/pytermstyle/blob/main/CHANGELOG.md"
+Changelog = "https://github.com/datapointchris/pytermstyle/releases"
 
 [dependency-groups]
 dev = [
