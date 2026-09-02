@@ -19,9 +19,8 @@ classifiers = [
     "Typing :: Typed",
 ]
 
-# A library floors lower than an application — see standards/release.md
-# § "Raising a language floor excludes callers". dotfiles itself is on 3.13; a
-# consumer stuck a release behind must still be able to resolve this.
+# A library floors lower than an application, because raising a floor excludes
+# callers. A consumer a release behind must still be able to resolve this.
 requires-python = ">=3.11"
 
 # Stdlib only, and this stays empty. Every consumer is a single-file CLI that
