@@ -69,14 +69,20 @@ strings, so `<tool> --help > notes.txt` writes text.
 Stdlib-only, with no dependencies of its own — several consumers declare their whole dependency
 list in a PEP 723 header, and a transitive dependency here is one they did not ask for.
 
-Consumed as a git dependency pinned to a release tag:
+Consumed as a git dependency pinned to a release tag. This prints the latest tag:
+
+```bash
+git ls-remote --tags --refs --sort=-v:refname https://github.com/datapointchris/pytermstyle | head -1 | cut -d/ -f3
+```
+
+Write that tag in place of `<tag>`:
 
 ```toml
 [project]
 dependencies = ["pytermstyle"]
 
 [tool.uv.sources]
-pytermstyle = { git = "https://github.com/datapointchris/pytermstyle", tag = "v0.1.0" }
+pytermstyle = { git = "https://github.com/datapointchris/pytermstyle", tag = "<tag>" }
 ```
 
 Or in a single-file script's inline metadata:
@@ -87,7 +93,7 @@ Or in a single-file script's inline metadata:
 # dependencies = ["pytermstyle"]
 #
 # [tool.uv.sources]
-# pytermstyle = { git = "https://github.com/datapointchris/pytermstyle", tag = "v0.1.0" }
+# pytermstyle = { git = "https://github.com/datapointchris/pytermstyle", tag = "<tag>" }
 # ///
 ```
 

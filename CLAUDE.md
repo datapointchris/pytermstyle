@@ -15,7 +15,8 @@ repos. No test in either repo compares their output.
 
 The two agree on what a screen shows, not on every byte. Python opens a row's color before the
 two-space indent, and Go opens it after. `test_examples_rows_use_the_command_color` pins the Python
-placement.
+placement. Python also writes a reset on a continuation row, which opens no color, and Go writes
+none.
 
 Both measure width in code points. Python's `len` on a `str` counts the unit Go's rune count does,
 so a multibyte name aligns the same in both. Both assume a wide character, such as CJK or emoji, is

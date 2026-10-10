@@ -237,10 +237,9 @@ def test_rows_still_align_when_color_is_off(monkeypatch, capsys):
         restore_color(monkeypatch)
 
 
-# The flat re-export is new surface that did not need guarding while every
-# consumer lived in one repo with the package on sys.path. As a library it is the
-# public contract, and a name dropped from __init__ breaks a consumer at import
-# rather than at a call site, which is the failure worth catching here.
+# The flat names on the package and the formatting module behind them are the
+# public contract. A name dropped from __init__ fails a consumer at import,
+# before any of its call sites runs. These tests catch the drop here instead.
 
 
 def test_every_exported_name_actually_resolves():
