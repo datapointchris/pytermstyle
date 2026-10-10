@@ -1,7 +1,8 @@
 # Short by design: .venv, htmlcov, .pytest_cache, .ruff_cache and .mypy_cache
-# each write a self-ignoring .gitignore into themselves. Only the artifacts that
-# do not — the ones `task clean` removes — need listing here.
+# each write a self-ignoring .gitignore into themselves. Only the output that
+# carries no such file needs listing here.
 .planning
+__pycache__/
 .coverage
 coverage.xml
 dist/
