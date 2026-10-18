@@ -36,8 +36,8 @@ a `Screen`, because Go runs its tests in one process and its programs concurrent
 ## The public contract is wider than `__all__`
 
 - **Every name in `__all__`, imported flat.** A dropped name fails a consumer at import, before any
-  call site runs. `test_the_names_safekeep_imports_are_all_exported` lists the first external
-  consumer's imports by hand, so dropping one fails here first.
+  call site runs. `test_the_names_a_consuming_cli_imports_are_all_exported` lists one consuming
+  CLI's imports by hand, so dropping one fails here first.
 - **`pytermstyle.formatting` and its globals `pending_rows`, `section_title` and `section_index`.**
   A consumer's tests reset them between screens. Renaming one breaks those tests with `__all__`
   unchanged.

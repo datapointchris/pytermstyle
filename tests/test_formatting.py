@@ -247,10 +247,10 @@ def test_every_exported_name_actually_resolves():
     assert not missing, f'declared in __all__ but not importable: {missing}'
 
 
-def test_the_names_safekeep_imports_are_all_exported():
-    """safekeep is the first external consumer and imports these flat. Named
-    explicitly rather than derived, because the point is to fail here if one is
-    ever dropped, instead of in a tool at startup."""
+def test_the_names_a_consuming_cli_imports_are_all_exported():
+    """A consuming CLI imports these flat. They are listed by hand rather than
+    derived from __all__, so dropping one fails here instead of in that CLI at
+    startup."""
     required = {
         'bold',
         'clip',
