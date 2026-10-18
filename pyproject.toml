@@ -175,8 +175,5 @@ style = "semver"
 cache-keys = [{ file = "pyproject.toml" }, { git = { commit = true, tags = true } }]
 
 [build-system]
-# Upper bound tracks the backend's own minor series, not the uv release that
-# happened to be current when the repo was created. The inherited <0.12.0 pin
-# already excluded the installed uv, which warns on every build by a consumer.
 requires = ["hatchling", "uv-dynamic-versioning"]
 build-backend = "hatchling.build"

@@ -141,7 +141,7 @@ The match ignores case. Any other title takes green, blue or white by its positi
 so adjacent sections differ without any screen choosing. Rows under Examples print in the command
 color, because an example is a command to type.
 
-There is no `dim`. It is unreadable against a large fraction of terminal themes.
+There is no `dim`. It is unreadable on many terminal themes.
 
 **One help screen per process.** The grammar keeps its state in three module globals of
 `pytermstyle.formatting`: `pending_rows`, `section_title` and `section_index`. Two screens rendered

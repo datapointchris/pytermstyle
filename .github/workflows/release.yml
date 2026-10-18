@@ -20,10 +20,9 @@ jobs:
     uses: ./.github/workflows/validate.yml
 
   # There is no publish job. pytermstyle is consumed as a git dependency pinned
-  # to a release tag, moving to the private index later, so the tag IS the
-  # artifact and there is nothing to upload. Do not restore the publish job from
-  # a sibling repo's workflow: the name is taken on public PyPI by an unrelated
-  # package, and new projects do not go there regardless.
+  # to a release tag, so the tag IS the artifact and there is nothing to upload.
+  # Never add one that uploads to PyPI: the name there belongs to an unrelated
+  # package.
   release:
     needs: validate
     uses: datapointchris/reusable-workflows/.github/workflows/python-semantic-release.yml@v1

@@ -22,7 +22,7 @@ Both measure width in code points. Python's `len` on a `str` counts the unit Go'
 so a multibyte name aligns the same in both. Both assume a wide character, such as CJK or emoji, is
 one column.
 
-Neither library has a `dim`. It is unreadable against a large fraction of terminal themes.
+Neither library has a `dim`. It is unreadable on many terminal themes.
 
 ## The help grammar keeps its state in module globals on purpose
 

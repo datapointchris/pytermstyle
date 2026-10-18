@@ -1,8 +1,8 @@
 """Terminal rendering for the Python CLIs: color palette, section header, help grammar.
 
-The bash CLIs share ``~/.local/shell/formatting.sh`` and the Go CLIs share
-``gotermstyle``; this is the third rendering of the same house style, and the
-parallel is the point. Colors are raw ANSI so any consumer can import this
+``formatting.sh``, a bash helper library, renders the same house style for bash
+CLIs, and ``gotermstyle`` renders it for Go CLIs. This is the third rendering,
+and the parallel is the point. Colors are raw ANSI so any consumer can import this
 without pulling a dependency of its own, and the codes match what the other two
 emit, so a Python screen and a bash screen sitting next to each other on PATH
 are indistinguishable.
@@ -24,8 +24,8 @@ column from the longest row in the section. No call site passes a width or a
 color. Close a screen with ``help_end``, and use ``help_text`` rather than
 ``print`` for prose between rows so pending rows flush ahead of it.
 
-There is deliberately no ``dim`` — see standards/cli-design.md, which rules
-it out for being unreadable against half the terminal themes in use.
+There is deliberately no ``dim``. Faint text is unreadable on many terminal
+themes, so emphasis is ``bold`` or a palette color.
 
 Two constraints are deliberate, and are constraints rather than oversights.
 
@@ -97,10 +97,11 @@ RESET = _code('\033[0m')
 # a bash screen draw the same rule.
 BAR = '━' * 50
 
-# The three roles that appear in nearly every CLI get a fixed color, so they
-# become learnable across tools. App-specific headings rotate through the rest of
-# the palette by position, keeping adjacent sections distinct without any screen
-# choosing — a single fallback made an all-app-specific screen render monochrome.
+# The roles that appear in nearly every CLI (commands, options, examples) get a
+# fixed color, so they become learnable across tools. App-specific headings
+# rotate through the rest of the palette by position, keeping adjacent sections
+# distinct without any screen choosing. A single fallback color would render a
+# screen of app-specific sections monochrome.
 SECTION_COLORS = {
     'commands': CYAN,
     'verbs': CYAN,
