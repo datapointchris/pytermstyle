@@ -44,6 +44,14 @@ pytermstyle = { git = "https://github.com/datapointchris/pytermstyle", tag = "<t
 In a single-file script, `uv add --script` writes the same dependency and git source inside its
 `# /// script` block.
 
+A wheel built from that project names a bare `pytermstyle`, because a wheel carries no git source.
+Every release is also published to a package index of its own. An install of such a wheel that
+names the index takes this package from there rather than from PyPI:
+
+```bash
+uv tool install --index https://pypi.ichrisbirch.com/simple/ <consumer>
+```
+
 A release changes nothing for a consumer until its pin moves to that release's tag.
 
 The library has no dependencies of its own. A single-file script declares its whole dependency list

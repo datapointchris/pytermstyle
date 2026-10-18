@@ -68,7 +68,11 @@ it, `row.startswith(formatting.CYAN)` is true of every string.
 Consumers install from this repo's git tags. Each pins an exact tag in `[tool.uv.sources]` or a PEP
 723 header, so a release changes nothing until that pin moves. The `pytermstyle` name on PyPI
 belongs to an unrelated package. A consumer declaring the dependency without the git source gets
-that package. The tag is the artifact, and `release.yml` has no publish job.
+that package.
+
+A consumer's built wheel drops its git source and names a bare `pytermstyle`. So `release.yml`'s
+`publish` job uploads each release to the package index those consumers publish their wheels to,
+and an install naming that index takes this package from it. It never uploads to PyPI.
 
 python-semantic-release cuts the tag through a shared reusable workflow, after `validate.yml`
 passes. A breaking change on 0.x ships as a minor. Reaching 1.0 is a deliberate edit to
