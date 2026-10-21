@@ -28,10 +28,10 @@ Neither library has a `dim`. It is unreadable on many terminal themes.
 
 `help_row` buffers into `pending_rows`, and `help_section` advances `section_index`. Two screens
 rendered at once in one process therefore interleave. Every consumer is a one-shot CLI rendering one
-screen, so the constraint never binds. A `Screen` object was considered and rejected. Respelling
-every call site as `screen.help_row` costs the grammar its prose-like reading. It also forks the API
-from the bash helper library this mirrors function for function. gotermstyle keeps the same state on
-a `Screen`, because Go runs its tests in one process and its programs concurrently.
+screen, so the constraint never binds. A `Screen` object would respell every call site as
+`screen.help_row`, which costs the grammar its prose-like reading and forks the API from the bash
+helper library this mirrors function for function. gotermstyle keeps the same state on a `Screen`,
+because Go runs its tests in one process and its programs concurrently.
 
 ## The public contract is wider than `__all__`
 
