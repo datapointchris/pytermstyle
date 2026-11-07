@@ -153,11 +153,11 @@ There is no `dim`. It is unreadable on many terminal themes.
 
 **One help screen per process.** The grammar keeps its state in three module globals of
 `pytermstyle.formatting`: `pending_rows`, `section_title` and `section_index`. Two screens rendered
-at once in one process interleave. Every consumer this serves is a one-shot CLI that renders one
-screen, so the constraint never binds. A `Screen` object was rejected. Respelling every call as
-`screen.help_row` costs the grammar its prose-like reading. It also forks the API from
-`formatting.sh`, which this mirrors function for function. gotermstyle does keep the same state on
-a `Screen`, because Go runs its tests in one process and its programs concurrently.
+at once in one process interleave. A one-shot CLI renders one screen, so there the constraint never
+binds. A `Screen` object would respell every call as `screen.help_row`. That costs the grammar its
+prose-like reading and forks the API from `formatting.sh`, which this mirrors function for function.
+gotermstyle does keep the same state on a `Screen`, because Go runs its tests in one process and
+its programs concurrently.
 
 A consumer's test that renders several screens resets those three globals between them. Their names
 are part of the public contract beside `__all__`, so renaming one breaks that test with `__all__`
@@ -224,9 +224,9 @@ task format   # ruff format and autofix
 ```
 
 python-semantic-release cuts each tag from the conventional commits on `main`, after the validate
-workflow passes. Nothing is tagged by hand, and nothing is uploaded: the tag is the artifact. On 0.x
-an incompatible change ships as a minor. The release notes are the GitHub release body, and no
-`CHANGELOG.md` is written.
+workflow passes. Nothing is tagged by hand. The `publish` job then builds the tag and uploads it to
+the package index named under Install, never to PyPI. On 0.x an incompatible change ships as a
+minor. The release notes are the GitHub release body, and no `CHANGELOG.md` is written.
 
 A change to the palette, `BAR`, the section colors and their rotation, the color precedence, `clip`
 or the row layout is a change to gotermstyle too. No test compares the two.
