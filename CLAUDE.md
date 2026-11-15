@@ -26,12 +26,9 @@ Neither library has a `dim`. It is unreadable on many terminal themes.
 
 ## The help grammar keeps its state in module globals on purpose
 
-`help_row` buffers into `pending_rows`, and `help_section` advances `section_index`. Two screens
-rendered at once in one process therefore interleave. Every consumer is a one-shot CLI rendering one
-screen, so the constraint never binds. A `Screen` object would respell every call site as
-`screen.help_row`, which costs the grammar its prose-like reading and forks the API from the bash
-helper library this mirrors function for function. gotermstyle keeps the same state on a `Screen`,
-because Go runs its tests in one process and its programs concurrently.
+One help screen per process: two screens rendered at once in one process interleave. The case
+against a `Screen` object is in `formatting.py`'s module docstring, under "One help screen per
+process".
 
 ## Every line the library draws goes through `_write`
 
@@ -40,7 +37,7 @@ Writing to stdout is this library's one effect, and `formatting._write` is its o
 whole screen. `test_every_line_the_library_draws_goes_through_its_write_door` parses the package and
 fails on a `print` call, or a write to `sys.stdout` or `sys.stderr`, outside `_write`. The door
 takes no stream argument. A stream would have to reach it through the grammar's calls or its
-module globals, which the `Screen` trade-off above rules out.
+module globals, which the case against a `Screen` object rules out.
 
 ## The public contract is wider than `__all__`
 
@@ -50,10 +47,9 @@ module globals, which the `Screen` trade-off above rules out.
 - **`pytermstyle.formatting` and its globals `pending_rows`, `section_title` and `section_index`.**
   A consumer's tests reset them between screens. Renaming one breaks those tests with `__all__`
   unchanged.
-- **The palette constants are plain strings, fixed at import.** Consumers interpolate them straight
-  into f-strings. Blanking the constants is the only color gate that reaches those call sites, so a
-  lazy or callable palette changes every one of them. `NO_COLOR` or `FORCE_COLOR` set after import
-  has no effect.
+- **The palette constants are plain strings, fixed at import.** `NO_COLOR` or `FORCE_COLOR` set
+  after import has no effect. Why a lazy or callable palette is ruled out is in `formatting.py`'s
+  module docstring, under "The palette is resolved once, at import".
 - **No dependencies, and a low Python floor.** A consumer that is a single-file script declares its
   whole dependency list in a PEP 723 header. A dependency added here is one it never asked for.
   Raising `requires-python` excludes a consumer on an older Python. `.python-version` holds the
