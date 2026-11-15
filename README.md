@@ -219,6 +219,11 @@ task lint     # ruff format check, ruff, mypy, bandit; writes no file
 task format   # ruff format and autofix
 ```
 
+The pre-commit hooks gate each commit, and CI runs the same hooks plus pytest on every pull
+request. Among them are the ruff format check, ruff and mypy. Ruff carries the flake8-bandit rules
+`pyproject.toml` selects by name. Bandit itself runs only under `task lint`, so nothing fails a
+commit or a pull request on a bandit finding.
+
 python-semantic-release cuts each tag from the conventional commits on `main`, after the validate
 workflow passes. Nothing is tagged by hand. The `publish` job then builds the tag and uploads it to
 the package index named under Install, never to PyPI. On 0.x an incompatible change ships as a
