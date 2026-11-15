@@ -124,6 +124,16 @@ section_title = ''
 section_index = 0
 
 
+def _write(line: str = '') -> None:
+    """Write one line to stdout. Every line this module draws goes through here.
+
+    ``sys.stdout`` is looked up on each call rather than bound at import, so a
+    redirect or a test's capture installed after import still receives the
+    screen.
+    """
+    sys.stdout.write(f'{line}\n')
+
+
 def paint(color: str, text: str) -> str:
     return f'{color}{text}{RESET}'
 
@@ -158,9 +168,9 @@ def bold(text: str) -> str:
 
 def header(title: str) -> None:
     """Print a boxed section header (bar, title, bar, trailing blank line)."""
-    print(f'{CYAN}{BAR}{RESET}')
-    print(f'{CYAN} {title}{RESET}')
-    print(f'{CYAN}{BAR}{RESET}\n')
+    _write(f'{CYAN}{BAR}{RESET}')
+    _write(f'{CYAN} {title}{RESET}')
+    _write(f'{CYAN}{BAR}{RESET}\n')
 
 
 def clip(text: str, used: int) -> str:
@@ -185,20 +195,20 @@ def help_header(name: str, tagline: str = '') -> None:
     """Open a help screen. Blank line leads, matching formatting.sh's print_header."""
     global section_index
     section_index = 0
-    print()
-    print(f'{CYAN}{BAR}{RESET}')
-    print(f'{CYAN} {name}{RESET}')
-    print(f'{CYAN}{BAR}{RESET}')
+    _write()
+    _write(f'{CYAN}{BAR}{RESET}')
+    _write(f'{CYAN} {name}{RESET}')
+    _write(f'{CYAN}{BAR}{RESET}')
     if tagline:
-        print(tagline)
+        _write(tagline)
 
 
 def help_usage(*lines: str) -> None:
     """Print usage lines. The ``Usage:`` label is ours, so every screen matches."""
-    print()
+    _write()
     prefix = 'Usage: '
     for line in lines:
-        print(f'{COMMAND}{prefix}{line}{RESET}')
+        _write(f'{COMMAND}{prefix}{line}{RESET}')
         prefix = '       '
 
 
@@ -208,9 +218,9 @@ def help_section(title: str) -> None:
     section_title = title
     color = section_color(title, section_index)
     section_index += 1
-    print()
-    print(title)
-    print(f'{color}{"─" * (len(title) + 15)}{RESET}')
+    _write()
+    _write(title)
+    _write(f'{color}{"─" * (len(title) + 15)}{RESET}')
 
 
 def help_row(name: str, args: str = '', description: str = '') -> None:
@@ -220,7 +230,7 @@ def help_row(name: str, args: str = '', description: str = '') -> None:
 def help_text(*lines: str) -> None:
     flush_rows()
     for line in lines:
-        print(line)
+        _write(line)
 
 
 def help_end() -> None:
@@ -228,7 +238,7 @@ def help_end() -> None:
     flush_rows()
     section_title = ''
     section_index = 0
-    print()
+    _write()
 
 
 def flush_rows() -> None:
@@ -253,6 +263,6 @@ def flush_rows() -> None:
         # A continuation row carries no name, so it opens no color. RESET still
         # follows its empty name, which a terminal renders as nothing.
         row_color = color if name else ''
-        print(f'{row_color}  {name}{RESET}{trailing}{pad}{description}'.rstrip())
+        _write(f'{row_color}  {name}{RESET}{trailing}{pad}{description}'.rstrip())
 
     pending_rows.clear()

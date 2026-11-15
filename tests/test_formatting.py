@@ -7,9 +7,11 @@ on screen: one colored row shoves its description eight columns right of the
 others. The same hazard governs `clip`, which must never cut inside an escape.
 """
 
+import ast
 import importlib
 import io
 import re
+from pathlib import Path
 
 import pytermstyle
 from pytermstyle import formatting
@@ -140,6 +142,38 @@ def test_help_end_resets_state_for_the_next_screen(capsys):
 
     row = [line for line in capsys.readouterr().out.splitlines() if 'b' in line][0]
     assert row.startswith(formatting.CYAN), 'the previous screen must not leak its section color'
+
+
+def standard_stream_writes(tree: ast.AST) -> list[int]:
+    """Lines outside ``_write`` that call print or write to sys.stdout or sys.stderr."""
+    door = {
+        id(node)
+        for function in ast.walk(tree)
+        if isinstance(function, ast.FunctionDef) and function.name == '_write'
+        for node in ast.walk(function)
+    }
+    found = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call) or id(node) in door:
+            continue
+        called = node.func
+        if (isinstance(called, ast.Name) and called.id == 'print') or (
+            isinstance(called, ast.Attribute)
+            and isinstance(called.value, ast.Attribute)
+            and isinstance(called.value.value, ast.Name)
+            and called.value.value.id == 'sys'
+            and called.value.attr in {'stdout', 'stderr'}
+        ):
+            found.append(node.lineno)
+    return found
+
+
+def test_every_line_the_library_draws_goes_through_its_write_door():
+    """_write resolves sys.stdout per call, so a redirect or capture installed
+    after import receives the whole screen. A write that skips it does not."""
+    package = Path(pytermstyle.__file__).parent
+    bypasses = {path.name: lines for path in package.glob('*.py') if (lines := standard_stream_writes(ast.parse(path.read_text())))}
+    assert not bypasses, f'writes that bypass formatting._write, by file and line: {bypasses}'
 
 
 class Terminal(io.StringIO):

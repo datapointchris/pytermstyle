@@ -33,6 +33,15 @@ screen, so the constraint never binds. A `Screen` object would respell every cal
 helper library this mirrors function for function. gotermstyle keeps the same state on a `Screen`,
 because Go runs its tests in one process and its programs concurrently.
 
+## Every line the library draws goes through `_write`
+
+Writing to stdout is this library's one effect, and `formatting._write` is its one door. It looks up
+`sys.stdout` on each call, so a redirect or a test's capture installed after import receives the
+whole screen. `test_every_line_the_library_draws_goes_through_its_write_door` parses the package and
+fails on a `print` call, or a write to `sys.stdout` or `sys.stderr`, outside `_write`. The door
+takes no stream argument. A stream would have to reach it through the grammar's calls or its
+module globals, which the `Screen` trade-off above rules out.
+
 ## The public contract is wider than `__all__`
 
 - **Every name in `__all__`, imported flat.** A dropped name fails a consumer at import, before any
