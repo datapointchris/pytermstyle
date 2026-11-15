@@ -139,15 +139,11 @@ The width is measured on the uncolored text, and the color goes on afterwards, s
 the same with color on or off. The width counts code points. A wide character, such as CJK or an
 emoji, counts as one column, so a row carrying one pushes its description right by the extra width.
 
-A section title that recurs across CLIs gets a fixed color, so the color becomes learnable:
-
-- **Cyan**: Commands, Verbs, Suites, Groups, Phases.
-- **Magenta**: Options, Flags, Arguments, Environment variables.
-- **Yellow**: Examples.
-
-The match ignores case. Any other title takes green, blue or white by its position on the screen,
-so adjacent sections differ without any screen choosing. Rows under Examples print in the command
-color, because an example is a command to type.
+A section title that recurs across CLIs, such as Commands, Options or Examples, gets a fixed color,
+so the color becomes learnable. `SECTION_COLORS` in `src/pytermstyle/formatting.py` maps each such
+title to its color. The match ignores case. Any other title takes a color from `SECTION_ROTATION` by
+its position on the screen, so adjacent sections differ without any screen choosing. Rows under
+Examples print in the command color, because an example is a command to type.
 
 There is no `dim`. It is unreadable on many terminal themes.
 
@@ -173,9 +169,9 @@ print(f'{CYAN}Snapshots{RESET}')                # or interpolate the constants d
 header('Snapshots')                             # a cyan bar, the title, a bar, a blank line
 ```
 
-The color constants are `CYAN`, `YELLOW`, `GREEN`, `RED`, `BLUE`, `MAGENTA`, `WHITE`, `COMMAND`,
-`BOLD` and `RESET`. Each helper (`cyan`, `green`, `yellow`, `red`, `blue`, `magenta`, `bold`) is
-`paint(color, text)`. `BAR`, the rule `header` draws, is not a color and never blanks.
+`__all__` in `src/pytermstyle/__init__.py` lists every color constant, and the lowercase helpers
+that wrap text in one. Each helper is `paint(color, text)`. `COLOR` and `BAR` sit beside the
+constants and are not colors. `BAR`, the rule `header` draws, never blanks.
 
 The color decision is made once, at import, in this order:
 
