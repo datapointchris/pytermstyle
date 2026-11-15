@@ -247,7 +247,8 @@ def flush_rows() -> None:
         left = f'{name} {args}'.rstrip()
         pad = ' ' * max(width - len(left), 0)
         trailing = f' {args}' if args else ''
-        # A continuation row carries no name, so it gets no color escape either.
+        # A continuation row carries no name, so it opens no color. RESET still
+        # follows its empty name, which a terminal renders as nothing.
         row_color = color if name else ''
         print(f'{row_color}  {name}{RESET}{trailing}{pad}{description}'.rstrip())
 
