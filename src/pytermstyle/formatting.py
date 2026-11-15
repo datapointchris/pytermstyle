@@ -102,6 +102,9 @@ BAR = '━' * 50
 # rotate through the rest of the palette by position, keeping adjacent sections
 # distinct without any screen choosing. A single fallback color would render a
 # screen of app-specific sections monochrome.
+#
+# The examples title also sets its rows in the command color, in flush_rows.
+EXAMPLES_SECTION = 'examples'
 SECTION_COLORS = {
     'commands': CYAN,
     'verbs': CYAN,
@@ -112,7 +115,7 @@ SECTION_COLORS = {
     'flags': MAGENTA,
     'arguments': MAGENTA,
     'environment variables': MAGENTA,
-    'examples': YELLOW,
+    EXAMPLES_SECTION: YELLOW,
 }
 SECTION_ROTATION = (GREEN, BLUE, WHITE)
 
@@ -240,7 +243,7 @@ def flush_rows() -> None:
 
     # An example is a command you would type, so it reads in the command color
     # rather than the name color used for a listing.
-    color = COMMAND if section_title.lower() == 'examples' else CYAN
+    color = COMMAND if section_title.lower() == EXAMPLES_SECTION else CYAN
     width = max(len(f'{name} {args}'.rstrip()) for name, args, _ in pending_rows) + 2
 
     for name, args, description in pending_rows:
